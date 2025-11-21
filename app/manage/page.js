@@ -178,6 +178,7 @@ export default function Page() {
                     <li className="text-black">[{itemData.id}]</li>
                     <li className="text-black">{itemData.buyer_name}</li>
                     <li className="text-black ">{itemData.buyer_email}</li>
+                    <li className="text-black ">{itemData.payment_method} - ${itemData.pay_amount}</li>
                     <li className="text-black ">{itemData.troll_item.name} - {itemData.troll_target_selection}</li>
                     <li className="text-black ">Count: {itemData.pay_amount / itemData.troll_item.price}</li>
                     <li className="flex flex-row justify-around mt-2">
