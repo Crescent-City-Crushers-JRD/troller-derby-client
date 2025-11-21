@@ -54,12 +54,12 @@ export default function Page() {
         {item.item_name}
     </div>;
     console.log(Item)
-    const TopBtn = ({ columnId }) => (
-        <button className="text-xs bg-green-200 px-2 py-1 rounded">Add to {columnId}</button>
-    );
+    // const TopBtn = ({ columnId }) => (
+    //     <button className="text-xs bg-green-200 px-2 py-1 rounded"></button>
+    // );
 
     const BottomBtn = ({ columnId }) => (
-        <button className="text-xs bg-red-200 px-2 py-1 rounded">Clear {columnId}</button>
+        <button className="text-xs bg-red-200 px-2 py-1 rounded">Move All To Next Column</button>
     );
     return(
         <MultiColumnBoard
@@ -67,7 +67,6 @@ export default function Page() {
             ItemComponent={Item}
             getId={(item) => item.id}
             onMove={(item, from, to, idx) => console.log(item, from, to, idx)}
-            topButton={TopBtn}
             bottomButton={BottomBtn}
         />
     )

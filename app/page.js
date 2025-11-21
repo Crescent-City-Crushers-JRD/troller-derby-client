@@ -16,11 +16,12 @@ export default function Home() {
     const [menu, setMenu] = useState([]);
     const {menuSelection, setMenuSelection, user, setUser} = useTroller()
     const host = (process.env.NEXT_PUBLIC_API_MODE === "dev" ? process.env.NEXT_PUBLIC_API_HOST_DEV : process.env.NEXT_PUBLIC_API_HOST_PROD);
+    console.log(host);
     useEffect(() => {
         const result = axios.get(host+"/menu/"+process.env.NEXT_PUBLIC_EVENT_ID).then((response) => {
             const menu = response.data.menu;
             const menuItems = []
-            console.log(menu);
+            console.log(response);
             menu.forEach(element => {
                 const tTarget = (element.troll_target === "Everyone" ? "Everyone" : "");
                 const menuItem = {
@@ -75,11 +76,12 @@ export default function Home() {
             ).then((response) => {
                 const purchase = response.data.buy;
                 setMenuSelection(prev=>({...prev, purchase_id: purchase.id}));
-                window.open(encodeURI("https://venmo.com/cccrushers?txn=pay&amount=" + menuChoice.price.toFixed(2) + "&note=Troller Derby Donation: " + menuChoice.name + " \n Crescent City Crushers Thank You!\n\n Donation Reference: " + purchase.id), "_blank", "noopener,noreferrer");
+                window.open(encodeURI("https://venmo.com/cccrushers?txn=pay&amount=" + menuChoice.total.toFixed(2) + "&note=Troller Derby Donation: " + menuChoice.name + " \n Crescent City Crushers Thank You!\n\n Donation Reference: " + purchase.id), "_blank", "noopener,noreferrer");
             }).finally(() => setPurchaseLoading(false));
             setMakePurchase("venmo-started");
         } else if (makePurchase === "venmo-started") {
-            setMakePurchase("complete");
+            setMakePurchase("pending");
+            setMenuSelection({id:""});
         }
     }
 
