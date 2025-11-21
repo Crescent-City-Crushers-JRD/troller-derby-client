@@ -1,4 +1,4 @@
-export default function TrollsContainer({ children }) {
+export default function TrollsContainer({ children, event }) {
     return (
         <div className="min-h-screen bg-gradient-to-br from-pink-300 via-purple-300 to-blue-300 p-4 flex items-center justify-center">
             <div className="bg-white/60 backdrop-blur-xl border-1 border-pink-400 rounded-2xl shadow-xl p-2 max-w-4xl w-full relative">

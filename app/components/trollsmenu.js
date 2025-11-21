@@ -111,7 +111,12 @@ export default function TrollsMenu({ items = [] }) {
                                                     w-[44px] flex justify-center items-center bg-pink-200"
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        setMenuSelection(prev => ({...prev, troll_count: menuSelection.troll_count + 1, total: (menuSelection.troll_count + 1) * menuSelection.price}));
+                                                        if(menuSelection.troll_count < 10){
+                                                            setMenuSelection(prev => ({...prev,
+                                                                troll_count: menuSelection.troll_count + 1,
+                                                                total: (menuSelection.troll_count + 1) * menuSelection.price
+                                                            }));
+                                                        }
                                                     }}
                                                 >+</span>
                                             </div>
