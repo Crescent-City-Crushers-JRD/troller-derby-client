@@ -5,7 +5,7 @@ import { createContext, useContext, useState } from "react";
 const TrollContext = createContext();
 
 export function TrollProvider({ children }) {
-    const [menuSelection, setMenuSelection] = useState({id:0});
+    const [menuSelection, setMenuSelection] = useState({id:""});
     const [user, setUser] = useState(null);
 
     return (

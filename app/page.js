@@ -7,6 +7,7 @@ import {useTroller} from "@/app/components/trollProvider";
 import SimpleLogin from "@/app/components/simplelogin";
 import axios from "axios";
 import TrollGreeting from "@/app/components/trollGreeting";
+import TrollerIntro from "@/app/components/TrollerIntro";
 
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
     const[purchaseReference, setPurchaseReference] = useState("");
     const [menu, setMenu] = useState([]);
     const [event, setEvent] = useState({});
+    const [readIntro, setReadIntro] = useState(false);
     const {menuSelection, setMenuSelection, user, setUser} = useTroller()
 
     const host = (process.env.NEXT_PUBLIC_API_MODE === "dev" ? process.env.NEXT_PUBLIC_API_HOST_DEV : process.env.NEXT_PUBLIC_API_HOST_PROD);
@@ -50,6 +52,10 @@ export default function Home() {
             const savedUser = localStorage.getItem("trollUser");
             if (savedUser) {
                 setUser(JSON.parse(savedUser)); // Assuming you store JSON strings
+            }
+                        const readIntro = localStorage.getItem("trollReadIntro");
+            if (readIntro) {
+                setReadIntro(true);
             }
         }
     }, []);
@@ -186,10 +192,14 @@ export default function Home() {
     //
     return (
     <TrollsContainer event={event}>
-        {user === null ? null : <TrollGreeting user={user} changeUser={setUser} />}
-        <TrollsMenu items={menu} />
-        {user === null && menuSelection.id !== "" ? <SimpleLogin /> : null }
-        {purchaseButtons(menuSelection, user, setMenuSelection)}
+        {readIntro ?
+            <>
+            {user === null ? null : <TrollGreeting user={user} changeUser={setUser} />}
+            <TrollsMenu items={menu} />
+            {user === null && menuSelection.id !== "" ? <SimpleLogin /> : null }
+            {purchaseButtons(menuSelection, user, setMenuSelection)}
+            </> : <TrollerIntro closeRead={setReadIntro} />
+        }
    </TrollsContainer>
     );
 }

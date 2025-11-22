@@ -1,7 +1,7 @@
 "use client"
 import {useTroller} from "@/app/components/trollProvider";
-import Image from "next/image";
 import {useEffect} from "react";
+
 
 export default function TrollsMenu({ items = [] }) {
     const {menuSelection, setMenuSelection, user, setUser} = useTroller();
@@ -90,7 +90,6 @@ export default function TrollsMenu({ items = [] }) {
         </div>)
     }
 
-
     const entries = Object.entries(groups);
     return (
         <div className="flex-col items-center justify-center mb-5">
@@ -101,7 +100,6 @@ export default function TrollsMenu({ items = [] }) {
                     {entries.map(([type, group]) => (
                         <section key={type} className="">
                             <h2 className="text-2xl font-extrabold text-purple-700 mb-3 drop-shadow-sm text-center">{type}</h2>
-
                             <ul className="space-y-4">
                                 {group.map((item) => (
                                     <li
@@ -113,7 +111,7 @@ export default function TrollsMenu({ items = [] }) {
                                     >
                                         { item.troll_image !== "" &&
                                             <div className="mr-2 w-[40px] h-[60px] text-3xl">
-                                                {item.troll_image}
+                                                {String.fromCodePoint(parseInt(item.troll_image, 16))}
                                             </div>
                                         }
                                         <div className="w-full">
@@ -166,11 +164,8 @@ export default function TrollsMenu({ items = [] }) {
                     ))}
                 </div>
                 { menuSelection.id !== "" ? (menuSelection.troll_target !== "Everyone" ? toppings(menuSelection) : null) : null }
-
             </div>
-
         </div>
-
         </div>
     );
 
