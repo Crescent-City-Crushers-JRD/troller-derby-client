@@ -1,7 +1,7 @@
 
 export default function TrollerIntro({closeRead}) {
     return (
-        <div className="flex flex-col justify-start items-start bg-white rounded-lg shadow-md p-5">
+        <div className="flex flex-col justify-start items-start bg-white text-black rounded-lg shadow-md p-5">
             <h1 className="text-2xl font-extrabold">WELCOME TO TROLLER DERBY</h1>
             <h2 className="text-xl mt-4 font-extrabold">What is Troller Derby?</h2>
             <p className="text-lg mt-2">TROLLer Derby is a variation of flat track roller derby in which fans pay to change the rules (trolling

@@ -150,15 +150,15 @@ export default function Home() {
                             <p> Alright! Please come over to the Cashier to pay.</p>
                             <p className="text-xs text-black italic">Purchase ID: { purchaseReference }</p>
                         </button>
-                        <button
-                            className="mt-2 border-1 rounded-xl border-black w-[300px] h-[90px] p-2
-                                        bg-gray-300 flex flex-col justify-center items-center justify-self-center text-black"
-                            onClick={() => {
-                                handlePurchase(menuSelection, user, "cancel", setMenuSelection);
-                            }}
-                        >
-                            <p>Actually, never mind. Please cancel my troll.</p>
-                        </button>
+                        {/*<button*/}
+                        {/*    className="mt-2 border-1 rounded-xl border-black w-[300px] h-[90px] p-2*/}
+                        {/*                bg-gray-300 flex flex-col justify-center items-center justify-self-center text-black"*/}
+                        {/*    onClick={() => {*/}
+                        {/*        handlePurchase(menuSelection, user, "cancel", setMenuSelection);*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <p>Actually, never mind. Please cancel my troll.</p>*/}
+                        {/*</button>*/}
                     </div>
                 );
             } else if(makePurchase === "venmo-started") {
@@ -173,15 +173,15 @@ export default function Home() {
                             }}>
                             <p> Alright! Venmo Complete. Let's make this Troll happen!</p>
                         </button>
-                        <button
-                            className="mt-2 border-1 rounded-xl border-black w-[300px] h-[90px] p-2
-                                        bg-gray-300 flex flex-col justify-center items-center justify-self-center text-black"
-                            onClick={() => {
-                                handlePurchase(menuSelection, user, "cancel", setMenuSelection);
-                            }}
-                        >
-                            <p>Actually, never mind. Please cancel my troll.</p>
-                        </button>
+                        {/*<button*/}
+                        {/*    className="mt-2 border-1 rounded-xl border-black w-[300px] h-[90px] p-2*/}
+                        {/*                bg-gray-300 flex flex-col justify-center items-center justify-self-center text-black"*/}
+                        {/*    onClick={() => {*/}
+                        {/*        handlePurchase(menuSelection, user, "cancel", setMenuSelection);*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <p>Actually, never mind. Please cancel my troll.</p>*/}
+                        {/*</button>*/}
                     </div>
                 );
             }
