@@ -18,6 +18,9 @@ export default function TrollsMenu({ items = [] }) {
 
     const toppings = (item) => {
         let topper = null
+        if(item.troll_target === "Everyone" || item.troll_target === "Referees") {
+            return null
+        }
         if(item.troll_target === "Team") {
             topper = <div className="w-full flex flex-row justify-center">
                     <span
@@ -95,7 +98,8 @@ export default function TrollsMenu({ items = [] }) {
         <div className="flex-col items-center justify-center mb-5">
         <div className="flex items-start justify-center">
             <div className="bg-white/70 backdrop-blur-xl border-2 border-purple-400 rounded-2xl shadow-2xl p-8 w-full relative overflow-hidden">
-                <h1 className="text-3xl font-extrabold text-pink-700 text-center mb-6 drop-shadow-lg">🍬Troll Treats🍬</h1>
+                <h1 className="text-3xl font-extrabold text-pink-700 text-center drop-shadow-lg">🍬Troll Treats🍬</h1>
+                <h3 className="text-md text-center font-extrabold text-black italic drop-shadow-lg mb-6">Pick Your Favorite Troll from our Menu and Get Trolling</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {entries.map(([type, group]) => (
                         <section key={type} className="">
@@ -163,7 +167,7 @@ export default function TrollsMenu({ items = [] }) {
                         </section>
                     ))}
                 </div>
-                { menuSelection.id !== "" ? (menuSelection.troll_target !== "Everyone" ? toppings(menuSelection) : null) : null }
+                { menuSelection.id !== "" ? toppings(menuSelection) : null }
             </div>
         </div>
         </div>
