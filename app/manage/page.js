@@ -12,6 +12,10 @@ export default function Page() {
     const [completed, setCompleted] = useState([]);
     const [currentJam, setCurrentJam] = useState(0);
     const host = process.env.NEXT_PUBLIC_API_MODE === "dev" ? process.env.NEXT_PUBLIC_API_HOST_DEV : process.env.NEXT_PUBLIC_API_HOST_PROD;
+
+    const findAndRemoveFromQueue = (queue, target) => {
+
+    }
     useEffect(() => {
         setQueueProcessing(true);
         axios.get(host+"/queues/"+process.env.NEXT_PUBLIC_EVENT_ID).then((response) => {
@@ -108,6 +112,10 @@ export default function Page() {
                         update_type: "pay_status",
                         update_value: "cancelled",
                     };
+                    setPending(prevItems =>
+                        prevItems.filter(item => item.id !== itemData.id)
+                    );
+
                 }
                 break;
             case "Awaiting":

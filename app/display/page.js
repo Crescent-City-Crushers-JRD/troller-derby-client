@@ -83,7 +83,7 @@ export default function Page() {
             } else {
                 setUpNext([])
             }
-            setTotalRaised(queues.total_raised);
+            setTotalRaised(data.total_raised);
             setCurrentJam(data.current_jam);
         })
         events.onerror = (err) => {
@@ -94,7 +94,7 @@ export default function Page() {
     const trollBox = (trolls, orient) => {
         let width = ""
         if(orient === "row") {
-            width = "w-1/5"
+            width = "w-1/6"
         } else {
             width = "w-full"
         }
@@ -115,10 +115,10 @@ export default function Page() {
     }
     const happeningNow = (trolls) => {
         const myTrolls = trollBox(trolls, "row")
-        const jamName = currentJam > 0 ? "Jam #"+currentJam : "Match Starting Soon!"
+
         return (
-            <div className="w-4/5 flex flex-col justify-center items-center border mt-4 p-3">
-               <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Happening Now - {jamName}</h2>
+            <div className="w-full flex flex-col justify-center items-center border mt-4 p-3">
+               <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Happening Now - {currentJam}</h2>
               <div className="w-full flex flex-row">
                   {myTrolls}
               </div>
@@ -127,22 +127,22 @@ export default function Page() {
     };
     let upcomingTrolls = [...purchased,...approved,...upNext]
     const toCome = (trolls) => {
-        const myTrolls = trollBox(trolls, "col")
+        const myTrolls = trollBox(trolls, "row")
         return (
             <div className="w-full flex flex-col justify-center items-center border mt-4 p-3">
                 <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Trolls To Come</h2>
-                <div className="w-full flex flex-col pr-4 pl-4">
+                <div className="w-full flex flex-row pr-4 pl-4">
                     {myTrolls}
                 </div>
             </div>
         )
     };
     const ofLegend = (trolls) => {
-        const myTrolls = trollBox(trolls, "col")
+        const myTrolls = trollBox(trolls, "row")
         return (
             <div className="w-full flex flex-col justify-center items-center border mt-4 p-3">
                 <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Trolls of Fame</h2>
-                <div className="w-full flex flex-col">
+                <div className="w-full flex flex-row flex-wrap overflow-scroll h-[200px]">
                     {myTrolls}
                 </div>
             </div>
@@ -150,16 +150,12 @@ export default function Page() {
     };
     return (
         <div className="flex flex-col justify-center items-center">
+            <h1 className="mt-5 mb-2 text-8xl font-extrabold text-black text-shadow-md text-shadow-amber-400 w-full text-center">This Is Troller Derby!</h1>
             {happeningNow(running)}
             <div className="text-6xl mt-4 mb-4 font-extrabold text-pink-700">Total Raised So Far: ${totalRaised.toFixed(2)}</div>
-            <div className="flex flex-row justify-between items-start">
-                <div className="w-full p-2 mt-5 mr-20">
-                {toCome(upcomingTrolls)}
-                </div>
-                <div className="w-full mt-5 ml-20">
-                {ofLegend(completed)}
-                </div>
-            </div>
+            {toCome(upcomingTrolls)}
+            {ofLegend(completed)}
+
         </div>
     )
 }
