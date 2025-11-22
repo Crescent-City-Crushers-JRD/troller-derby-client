@@ -131,7 +131,7 @@ export default function Page() {
         return (
             <div className="w-full flex flex-col justify-center items-center border mt-4 p-3">
                 <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Trolls To Come</h2>
-                <div className="w-full flex flex-row pr-4 pl-4">
+                <div className="w-full flex flex-row flex-wrap overflow-scroll h-[200px]">
                     {myTrolls}
                 </div>
             </div>
