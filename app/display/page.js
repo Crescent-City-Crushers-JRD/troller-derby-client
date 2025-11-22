@@ -118,9 +118,9 @@ export default function Page() {
 
         return (
             <div className="w-full flex flex-col justify-center items-center border mt-4 p-3">
-               <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Happening Now - {currentJam}</h2>
+               <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Happening Now - Jam #{currentJam}</h2>
               <div className="w-full flex flex-row">
-                  {myTrolls}
+                  {myTrolls.length > 0 ? myTrolls : <div className="w-full border rounded-2xl mt-2 mb-2 h-[200px] text-4xl flex justify-center items-center bg-pink-400 text-black">Nothing So Far! Go Buy A Troll!</div>}
               </div>
             </div>
       )
