@@ -24,18 +24,18 @@ export default function TrollsMenu({ items = [] }) {
         if(item.troll_target === "Team") {
             topper = <div className="w-full flex flex-row justify-center">
                     <span
-                        data-team={"purple"}
+                        data-team={"black"}
                         onClick={(e) => setMenuSelection(prev => ({...prev, troll_target_selection: e.target.dataset.team})) }
                         className={`${
-                            menuSelection.troll_target_selection === "purple" ? "bg-teal-300" : "bg-white/90"
-                        } rounded-xl shadow-md p-5 border text-md font-bold text-purple-600 border-pink-300 hover:shadow-xl transition-all mr-5`}>
-                        Purple Team
+                            menuSelection.troll_target_selection === "black" ? "bg-amber-400" : "bg-black"
+                        } rounded-xl shadow-md p-5 border text-md font-bold text-white border-pink-300 hover:shadow-xl transition-all mr-5`}>
+                        Black Team
                     </span>
                 <span
                     data-team={"white"}
                     onClick={(e) => setMenuSelection(prev => ({...prev, troll_target_selection: e.target.dataset.team})) }
                     className={`${
-                        menuSelection.troll_target_selection === "white" ? "bg-teal-300" : "bg-white/90"
+                        menuSelection.troll_target_selection === "white" ? "bg-amber-400" : "bg-white/90"
                     } rounded-xl shadow-md p-5 border text-md font-bold text-black border-pink-300 hover:shadow-xl transition-all`}>
                         White Team</span>
 
