@@ -17,37 +17,76 @@ export default function TrollsMenu({ items = [] }) {
     }, [])
 
     const toppings = (item) => {
-        return (<div className="mt-5">
-            <h2 className="text-3xl font-extrabold text-pink-700 text-center mb-6 drop-shadow-lg">Pick Your {item.troll_target}</h2>
-            {item.troll_target === "Team" ?
-                <div className="w-full flex flex-row justify-center">
+        let topper = null
+        if(item.troll_target === "Team") {
+            topper = <div className="w-full flex flex-row justify-center">
                     <span
                         data-team={"purple"}
                         onClick={(e) => setMenuSelection(prev => ({...prev, troll_target_selection: e.target.dataset.team})) }
                         className={`${
                             menuSelection.troll_target_selection === "purple" ? "bg-teal-300" : "bg-white/90"
-                    } rounded-xl shadow-md p-5 border text-md font-bold text-purple-600 border-pink-300 hover:shadow-xl transition-all mr-5`}>
+                        } rounded-xl shadow-md p-5 border text-md font-bold text-purple-600 border-pink-300 hover:shadow-xl transition-all mr-5`}>
                         Purple Team
                     </span>
-                    <span
-                        data-team={"white"}
-                        onClick={(e) => setMenuSelection(prev => ({...prev, troll_target_selection: e.target.dataset.team})) }
-                        className={`${
-                            menuSelection.troll_target_selection === "white" ? "bg-teal-300" : "bg-white/90"
+                <span
+                    data-team={"white"}
+                    onClick={(e) => setMenuSelection(prev => ({...prev, troll_target_selection: e.target.dataset.team})) }
+                    className={`${
+                        menuSelection.troll_target_selection === "white" ? "bg-teal-300" : "bg-white/90"
                     } rounded-xl shadow-md p-5 border text-md font-bold text-black border-pink-300 hover:shadow-xl transition-all`}>
                         White Team</span>
 
-                </div> :
-                <div className="w-full flex flex-row justify-center">
+            </div>
+        } else if (item.troll_target === "Player") {
+            topper = <div className="w-full flex flex-row justify-center">
                     <span className="flex w-11/12 items-center justify-center rounded-xl shadow-md p-5 border text-md font-bold text-pink-900 bg-white transition-all">
                         <label className="w-1/3 transition-all">Choose Your {item.troll_target}:</label>
-                        <select className="w-2/3 transition-all border rounded-md shadow-md p-2">
-                            <option className="bg-teal-300">Lunatic</option>
-                            <option className="bg-teal-300">Vicious</option>
+                        <select
+                            className="w-2/3 transition-all border rounded-md shadow-md p-2"
+                            onChange={(e) => {
+                                setMenuSelection(prev => ({...prev, troll_target_selection: e.target.value}));
+                            }}
+                        >
+                            <option className="bg-teal-300" value="Boba Tea Rex">Boba Tea Rex</option>
+                            <option className="bg-teal-300" value="PinkaVicious">PinkaVicious</option>
+                            <option className="bg-teal-300" value="Hot Mess Express">Hot Mess Express</option>
+                            <option className="bg-teal-300" value="Eagle Eye">Eagle Eye</option>
+                            <option className="bg-teal-300" value="Sabotage">Sabotage</option>
+                            <option className="bg-teal-300" value="Slamwise Gamgee">Slamwise Gamgee</option>
+                            <option className="bg-teal-300" value="Little Star">Little Star</option>
+                            <option className="bg-teal-300" value="Lightning">Lightning</option>
+                            <option className="bg-teal-300" value="LunaTic">LunaTic</option>
+                            <option className="bg-teal-300" value="Night Terror">Night Terror</option>
+                            <option className="bg-teal-300" value="Shadow Phoenix">Shadow Phoenix</option>
+                            <option className="bg-teal-300" value="Toxic Shock">Toxic Shock</option>
                         </select>
                     </span>
-                </div>
-            }
+            </div>
+        } else if (item.troll_target === "Referee") {
+            topper = <div className="w-full flex flex-row justify-center">
+                <span className="flex w-11/12 items-center justify-center rounded-xl shadow-md p-5 border text-md font-bold text-pink-900 bg-white transition-all">
+                        <label className="w-1/3 transition-all">Choose Your {item.troll_target}:</label>
+                        <select className="w-2/3 transition-all border rounded-md shadow-md p-2">
+                            <option className="bg-teal-300">Bourbon</option>
+                            <option className="bg-teal-300">James Bondage</option>
+                        </select>
+                    </span>
+            </div>
+        } else if (item.troll_target === "Anyone") {
+            topper = <div className="w-full flex flex-row justify-center">
+                <span className="flex w-11/12 items-center justify-center rounded-xl shadow-md p-5 border text-md font-bold text-pink-900 bg-white transition-all">
+                    <label className="w-1/3 transition-all">Fill Out Your Choice:</label>
+                    <input className="w-2/3 border p-1" placeholder="Fill In a Name..." value={menuSelection.troll_target_selection} onChange={(e) => {
+                        setMenuSelection(prev => ({...prev, troll_target_selection: e.target.value}));
+                    }} />
+                </span>
+            </div>
+        }
+
+        return (
+        <div className="mt-5">
+            <h2 className="text-3xl font-extrabold text-pink-700 text-center mb-6 drop-shadow-lg">Pick Your {item.troll_target}</h2>
+            {topper}
         </div>)
     }
 
@@ -73,11 +112,9 @@ export default function TrollsMenu({ items = [] }) {
                                         } rounded-xl shadow-md p-5 border border-pink-300 hover:shadow-xl transition-all flex cursor-pointer select-none`}
                                     >
                                         { item.troll_image !== "" &&
-                                            <Image src={`/${item.troll_image}`} alt="dancing troll"
-                                                   width={40}
-                                                   height={60}
-                                                   className="mr-2"
-                                            />
+                                            <div className="mr-2 w-[40px] h-[60px] text-3xl">
+                                                {item.troll_image}
+                                            </div>
                                         }
                                         <div className="w-full">
                                             <div className="flex justify-between items-center mb-1">

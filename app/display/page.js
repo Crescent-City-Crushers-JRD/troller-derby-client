@@ -1,7 +1,13 @@
 "use client"
 import {useEffect, useState} from "react";
+import axios from "axios";
+
 
 export default function Page() {
+    function capitalizeFirstLetter(string) {
+        if (!string) return ""; // Handle empty or null strings
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     const [pending, setPending] = useState([]);
     const [purchased, setPurchased] = useState([]);
     const [approved, setApproved ] = useState([]);
@@ -9,11 +15,11 @@ export default function Page() {
     const [running, setRunning] = useState([]);
     const [completed, setCompleted] = useState([]);
     const [currentJam, setCurrentJam] = useState(0);
+    const [totalRaised, setTotalRaised] = useState(0.00);
     const host = process.env.NEXT_PUBLIC_API_MODE === "dev" ? process.env.NEXT_PUBLIC_API_HOST_DEV : process.env.NEXT_PUBLIC_API_HOST_PROD;
     useEffect(() => {
-        setQueueProcessing(true);
         axios.get(host+"/queues/"+process.env.NEXT_PUBLIC_EVENT_ID).then((response) => {
-            console.log(response.data);
+            console.log(response.data.queues);
             const queues = response.data.queues;
             if(queues.approved !== null) {
                 setApproved(queues.approved);
@@ -33,11 +39,11 @@ export default function Page() {
             if(queues.up_next !== null) {
                 setUpNext(queues.up_next);
             }
+            setTotalRaised(queues.total_raised);
             setCurrentJam(queues.current_jam);
-        }).finally(()=>{setQueueProcessing(false)});
+        });
     }, []);
     useEffect(() => {
-        console.log("Starting Event Listener on: ", host + "/events");
         const events = new EventSource(host + "/events")
         events.addEventListener("buy", (e) => {
             const data = JSON.parse(e.data)
@@ -77,6 +83,7 @@ export default function Page() {
             } else {
                 setUpNext([])
             }
+            setTotalRaised(queues.total_raised);
             setCurrentJam(data.current_jam);
         })
         events.onerror = (err) => {
@@ -84,6 +91,75 @@ export default function Page() {
         }
         return () => events.close()
     }, [])
-
-
+    const trollBox = (trolls, orient) => {
+        let width = ""
+        if(orient === "row") {
+            width = "w-1/5"
+        } else {
+            width = "w-full"
+        }
+        return trolls.map((troll) => {
+            const target = troll.troll_target_selection;
+            const tBg = target === "white" ? "bg-white text-black" : (target === "black" ? "bg-black text-white" : "bg-teal-300")
+            return (
+                <ul
+                    key={troll.id}
+                    className={`transitional-all duration-500 ease-out ${width} border h-[180px] ${tBg} text-black flex flex-col justify-center items-center m-2 pt-2 pb-2 rounded-2xl`}>
+                    <li className="w-full text-center text-xl font-bold p-1">{troll.troll_item.name}</li>
+                    <li className="p-1 w-full text-center text-lg">{troll.troll_item.description}</li>
+                    <li className="p-1 w-full text-center text-lg italic">{capitalizeFirstLetter(troll.troll_target_selection)}</li>
+                    <li className="p-1 w-fill text-center">Donated By: <span className="text-xl font-extrabold">{troll.buyer_name}</span></li>
+                </ul>
+            )
+        })
+    }
+    const happeningNow = (trolls) => {
+        const myTrolls = trollBox(trolls, "row")
+        const jamName = currentJam > 0 ? "Jam #"+currentJam : "Match Starting Soon!"
+        return (
+            <div className="w-4/5 flex flex-col justify-center items-center border mt-4 p-3">
+               <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Happening Now - {jamName}</h2>
+              <div className="w-full flex flex-row">
+                  {myTrolls}
+              </div>
+            </div>
+      )
+    };
+    let upcomingTrolls = [...purchased,...approved,...upNext]
+    const toCome = (trolls) => {
+        const myTrolls = trollBox(trolls, "col")
+        return (
+            <div className="w-full flex flex-col justify-center items-center border mt-4 p-3">
+                <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Trolls To Come</h2>
+                <div className="w-full flex flex-col pr-4 pl-4">
+                    {myTrolls}
+                </div>
+            </div>
+        )
+    };
+    const ofLegend = (trolls) => {
+        const myTrolls = trollBox(trolls, "col")
+        return (
+            <div className="w-full flex flex-col justify-center items-center border mt-4 p-3">
+                <h2 className="text-4xl font-extrabold text-center w-full border-b-3 pb-2">Trolls of Fame</h2>
+                <div className="w-full flex flex-col">
+                    {myTrolls}
+                </div>
+            </div>
+        )
+    };
+    return (
+        <div className="flex flex-col justify-center items-center">
+            {happeningNow(running)}
+            <div className="text-6xl mt-4 mb-4 font-extrabold text-pink-700">Total Raised So Far: ${totalRaised.toFixed(2)}</div>
+            <div className="flex flex-row justify-between items-start">
+                <div className="w-full p-2 mt-5 mr-20">
+                {toCome(upcomingTrolls)}
+                </div>
+                <div className="w-full mt-5 ml-20">
+                {ofLegend(completed)}
+                </div>
+            </div>
+        </div>
+    )
 }
